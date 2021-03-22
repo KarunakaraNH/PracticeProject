@@ -55,9 +55,7 @@ public class TIHPCustomerFlow extends TestBase {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		System.out.println("when");
 		
-		
-		
-		
+		System.out.println("Git");
 	}
 
 	// private By userProfileLogo = By.id("HeaderLoggedInText");
