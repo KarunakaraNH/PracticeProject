@@ -54,6 +54,10 @@ public class TIHPCustomerFlow extends TestBase {
 				prop.getProperty("password"));
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		System.out.println("when");
+		
+		
+		
+		
 	}
 
 	// private By userProfileLogo = By.id("HeaderLoggedInText");
