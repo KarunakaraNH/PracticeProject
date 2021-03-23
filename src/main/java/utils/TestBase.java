@@ -7,9 +7,13 @@ import java.util.Properties;
 import java.util.Random;
 
 import org.junit.BeforeClass;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,6 +24,7 @@ public class TestBase {
     public static JavascriptExecutor js;
     public static Actions action;
     public static WebDriverWait wait;
+    public static Dimension d;
   
   //  SoftAssert a=new SoftAssert();
     
@@ -40,17 +45,18 @@ public class TestBase {
     public static void initialization(){
     	
         String browserName = prop.getProperty("browser");
-
         if(browserName.equalsIgnoreCase("chrome")){
             System.setProperty("webdriver.chrome.driver", "./BrowserDrivers/chromedriver.exe");
             driver = new ChromeDriver();
+           
         }
         else if(browserName.equalsIgnoreCase("FF")){
-            System.setProperty("webdriver.gecko.driver", "C:\\Users\\karunh\\IHP2 Automation(TIHP)\\IHP2Automation\\BrowserDrivers");
-            //driver = new FirefoxDriver();
+            System.setProperty("webdriver.gecko.driver", "./BrowserDrivers/geckodriver.exe");
+            driver = new FirefoxDriver();
         }
 
         driver.manage().window().maximize();
+        TestBase.resizeBrowser();
         driver.manage().deleteAllCookies();
 //        driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 //        driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
@@ -65,6 +71,14 @@ public class TestBase {
     	Random r=new Random();
     	return r.nextInt(1000);
     	
+    }
+    public static void resizeBrowser() {
+        /*d = new Dimension(800,480);
+        driver.manage().window().setSize(d);*/
+    	for(int i=0; i<3; i++){
+			driver.findElement(By.tagName("html")).sendKeys(Keys.chord(Keys.CONTROL,Keys.SUBTRACT));
+		}
+        
     }
     	
 

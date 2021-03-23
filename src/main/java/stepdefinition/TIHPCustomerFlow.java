@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,6 +26,7 @@ public class TIHPCustomerFlow extends TestBase {
 	@Given("^Access IHP Planner$")
 	public void access_IHP_Planner() {
 		TestBase.initialization();
+		TestBase.resizeBrowser();
 		driver.switchTo().frame("MainFrame");
 		wait = new WebDriverWait(driver, 100);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By
@@ -49,54 +51,64 @@ public class TIHPCustomerFlow extends TestBase {
 			throws Throwable {
 		wait.until(
 				ExpectedConditions.visibilityOfElementLocated(By.id("username")))
-				.sendKeys(prop.getProperty("coworkerusername"));
+				.sendKeys(prop.getProperty("username"));
 		driver.findElement(By.xpath("//input[@id='Password']")).sendKeys(
 				prop.getProperty("password"));
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		System.out.println("when");
 		
-		System.out.println("Git");
 	}
 
 	// private By userProfileLogo = By.id("HeaderLoggedInText");
 	@Then("^Verify that user is logged into planner$")
 	public void verify_that_user_is_logged_into_planner() throws Throwable {
 				System.out.println("Then");
-				Thread.sleep(5000);
-               // driver.switchTo().frame("MainFrame");
+				Thread.sleep(10000);
 				System.out.println(driver.getCurrentUrl());
-				WebElement frame1=driver.findElement(By.id("DashboardFrame"));
-                driver.switchTo().frame(frame1);
+				driver.switchTo().frame("MainFrame");
+				driver.switchTo().frame("DashboardFrame");
                 WebElement userProfile = driver.findElement(By.id("HeaderLoggedInText"));
                 if(userProfile.isDisplayed()||userProfile.isEnabled())
                 {
                 	System.out.println("element displayed");
+                	userProfile.click();
+                	Thread.sleep(500);
+                	WebElement loggedinuser= driver.findElement(By.xpath("//div[@id='HeaderLoggedInText']/span"));
+                	System.out.println(loggedinuser.getText());
+                	driver.switchTo().defaultContent();
                 }
+               
 	}
 
 	@Then("^add few cabinets to Planner and save the design$")
 	public void add_few_cabinets_to_Planner_and_save_the_design()
 			throws Throwable {
-		driver.findElement(
-				By.xpath("//button[@id='onetrust-accept-btn-handler']"))
-				.click();
-		WebElement searchproduct = driver.findElement(By
-				.xpath("//input[@id='MainControl_Search_SearchAllProducts']"));
-		searchproduct.sendKeys("sink");
-		searchproduct.click();
+        driver.switchTo().frame("MainFrame");
+        driver.switchTo().frame("DashboardFrame");
+        driver.switchTo().frame("FromScratchIframe");
+        driver.findElement(By.xpath("//span[@id='CreateFromScratch_StartButton']")).click();
+		/*WebElement searchproduct = driver.findElement(By
+				.xpath("//input[@id='MainControl_Search_SearchAllProducts']"));*/
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame("MainFrame");
+        driver.switchTo().frame("PlannerFrame");
+        Thread.sleep(30000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='MainControl_Search_SearchAllProducts']"))).sendKeys("sink");
+		/*WebElement searchproduct = driver.findElement(By
+				.xpath("//input[@id='MainControl_Search_SearchAllProducts']"));*/
+		driver.findElement(By.xpath("//div[@id='General_SearchButton']")).click();
 		int length = Integer.parseInt(prop
 				.getProperty("mincabinetsforvalidation"));
-		for (int i = 1; i >= length; i++) {
+		for (int i = 1; i <= length; i++) {
 
-			driver.findElement(
-					By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"))
-					.click();
+			WebElement Cabinet=driver.findElement(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+			wait.until(ExpectedConditions.visibilityOf(Cabinet));
+			Cabinet.click();		
 		}
-
-		// driver.findElement(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]")).click();
+		Thread.sleep(20000);
 		driver.findElement(By.xpath("//span[@id='header_button_save']"))
 				.click();
-		driver.switchTo().frame(driver.findElement(By.id("frame_container")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("save_as_name)")));
+		driver.switchTo().frame("VPUIFrameSaveAS");
 		int designSrNo = TestBase.RandomNumber();
 		driver.findElement(By.id("save_as_name")).sendKeys(
 				"TestDesign" + designSrNo);
