@@ -56,12 +56,14 @@ public class TestBase {
         }
 
         driver.manage().window().maximize();
-        TestBase.resizeBrowser();
-        driver.manage().deleteAllCookies();
+        //TestBase.resizeBrowser();
+        //driver.manage().deleteAllCookies();
 //        driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 //        driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
         driver.get(prop.getProperty("url"));
         js = (JavascriptExecutor)driver;
+        /*String zoomInJS="document.body.style.zoom='80%'";
+    	js.executeScript(zoomInJS);*/
         action=new Actions(driver);
        
         
@@ -74,10 +76,13 @@ public class TestBase {
     }
     public static void resizeBrowser() {
         /*d = new Dimension(800,480);
-        driver.manage().window().setSize(d);*/
+        driver.manage().window().setSize(d);
     	for(int i=0; i<3; i++){
 			driver.findElement(By.tagName("html")).sendKeys(Keys.chord(Keys.CONTROL,Keys.SUBTRACT));
-		}
+		}*/
+    	/*String zoomInJS="document.bodystyle.zoom='50%'";
+    	js.executeAsyncScript(zoomInJS);
+		return zoomInJS;*/
         
     }
     	

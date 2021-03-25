@@ -10,7 +10,7 @@ import cucumber.api.junit.Cucumber;
         features = "src/main/java/featurefiles", //the path of the feature files
         glue="stepdefinition",
         monochrome = true,
-        plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json" }
+        plugin = { "pretty", "html:target/cucumber-reports" }
 		)
         //the path of the step definition files
        // format= {"pretty","html:test-outout", "json:json_output/cucumber.json", "junit:junit_xml/cucumber.xml"})//to generate different types of reporting
