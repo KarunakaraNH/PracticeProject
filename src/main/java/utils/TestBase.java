@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.BeforeClass;
 import org.openqa.selenium.By;
@@ -34,7 +35,7 @@ public class TestBase {
         prop=new Properties();
         try {
         	FileInputStream ip = new FileInputStream("./src/main/java/configuration/Config.properties");
-           System.out.println("Karan");
+          
         	prop.load(ip);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -56,6 +57,7 @@ public class TestBase {
         }
 
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(20000, TimeUnit.SECONDS);
         //TestBase.resizeBrowser();
         //driver.manage().deleteAllCookies();
 //        driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);

@@ -29,7 +29,8 @@ public class TIHPCustomerFlow extends TestBase {
 	public void access_IHP_Planner() {
 		TestBase.initialization();
 		driver.switchTo().frame("MainFrame");
-		wait = new WebDriverWait(driver, 100);
+		
+		wait = new WebDriverWait(driver,1500);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By
 				.id("Agreement_CheckBox")));
 		driver.findElement(By.id("Agreement_CheckBox")).click();
@@ -101,7 +102,7 @@ public class TIHPCustomerFlow extends TestBase {
 				.click();
 		int length = Integer.parseInt(prop
 				.getProperty("mincabinetsforvalidation"));
-		for (int i = 1; i <= length; i++) {
+		for (int i = 0; i <= length; i++) {
 			try {
 				WebElement Cabinet = driver
 						.findElement(By
@@ -109,17 +110,14 @@ public class TIHPCustomerFlow extends TestBase {
 				wait.until(ExpectedConditions.visibilityOf(Cabinet));
 				Cabinet.click();
 			} catch (Exception e) {
-				WebElement Cabinet = driver
-						.findElement(By
-								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
-				wait.until(ExpectedConditions.visibilityOf(Cabinet));
-				Cabinet.click();
-			}
+				System.out.println("Exception "+e);
+		}
 		}
 		Thread.sleep(20000);
-		System.out.println("Save the design");
-		driver.findElement(By.xpath("//span[@id='header_button_save']"))
-				.click();
+		//System.out.println("Save the design");*/
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='header_button_save']"))).click();
+		/*driver.findElement(By.xpath("//span[@id='header_button_save']"))
+				.click();*/
 		driver.switchTo().frame("VPUIFrameSaveAS");
 		String savetext = driver.findElement(
 				By.xpath("//span[@id='SaveDesignFrame_Title']")).getText();
@@ -129,7 +127,16 @@ public class TIHPCustomerFlow extends TestBase {
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='save_as_name']"))).sendKeys(
 				"Test-ignore " + designSrNo);
-		driver.findElement(By.id("button_save_as")).click();
+		
+		WebElement savedesignbtn=driver.findElement(By.id("button_save_as"));
+		savedesignbtn.click();
+		/*if(savedesignbtn.isDisplayed() || savedesignbtn.isEnabled())
+		{
+			savedesignbtn.click();
+		}else
+		{
+			System.out.println("savedesignbtn is not clicked");
+		}*/
 		driver.findElement(By.xpath("//img[@id='button_close']")).click();
 		driver.switchTo().defaultContent();
 	}
@@ -148,7 +155,7 @@ public class TIHPCustomerFlow extends TestBase {
 		{
 			System.out.println("Proceed button is not displayed");
 		}
-		Thread.sleep(5000);
+		Thread.sleep(10000);
 		driver.switchTo().frame("VPUIEcommerceFull");
 		driver.findElement(By.xpath("//span[@id='General_SubmitButton']"))
 				.click();
@@ -203,18 +210,27 @@ public class TIHPCustomerFlow extends TestBase {
 		wait.until(
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
-				.sendKeys("chair");
+				.sendKeys("sink");
 		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
 				.click();
-		WebElement Cabinet = driver
-				.findElement(By
-						.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
-		wait.until(ExpectedConditions.visibilityOf(Cabinet));
-		Cabinet.click();
-		Thread.sleep(10000);
-		System.out.println("Save the design");
-		driver.findElement(By.xpath("//span[@id='header_button_save']"))
-				.click();
+		int length = Integer.parseInt(prop
+				.getProperty("mincabinetsforvalidation"));
+		for (int i = 0; i <= length; i++) {
+			try {
+				WebElement Cabinet = driver
+						.findElement(By
+								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+				wait.until(ExpectedConditions.visibilityOf(Cabinet));
+				Cabinet.click();
+			} catch (Exception e) {
+				System.out.println("Exception "+e);
+		}
+		}
+		Thread.sleep(20000);
+		//System.out.println("Save the design");*/
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='header_button_save']"))).click();
+		/*driver.findElement(By.xpath("//span[@id='header_button_save']"))
+				.click();*/
 		driver.switchTo().frame("VPUIFrameSaveAS");
 		String savetext = driver.findElement(
 				By.xpath("//span[@id='SaveDesignFrame_Title']")).getText();
@@ -224,7 +240,16 @@ public class TIHPCustomerFlow extends TestBase {
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='save_as_name']"))).sendKeys(
 				"Test-ignore " + designSrNo);
-		driver.findElement(By.id("button_save_as")).click();
+		
+		WebElement savedesignbtn=driver.findElement(By.id("button_save_as"));
+		savedesignbtn.click();
+		/*if(savedesignbtn.isDisplayed() || savedesignbtn.isEnabled())
+		{
+			savedesignbtn.click();
+		}else
+		{
+			System.out.println("savedesignbtn is not clicked");
+		}*/
 		driver.findElement(By.xpath("//img[@id='button_close']")).click();
 		driver.switchTo().defaultContent();
 	
@@ -246,7 +271,18 @@ public class TIHPCustomerFlow extends TestBase {
 		}
 		Thread.sleep(5000);
 		driver.switchTo().frame("VPUIEcommerceFull");
-		driver.findElement(By.xpath("//div[@id='buy_option']")).click();
+		WebElement direcbuyoption=driver.findElement(By.xpath("//div[@id='buy_option']"));
+		if(direcbuyoption.isDisplayed()||direcbuyoption.isEnabled())
+		{
+			direcbuyoption.click();
+		}else
+		{
+			WebElement partialbuyoption=driver.findElement(By.id("PartialCart_BuyButton"));
+			partialbuyoption.click();
+			
+			
+		}
+		
 		driver.findElement(By.xpath("//span[@id='General_SubmitButton']"))
 				.click();
 		driver.switchTo().defaultContent();
@@ -290,14 +326,14 @@ public class TIHPCustomerFlow extends TestBase {
 		wait.until(
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
-				.sendKeys("sink");
+				.sendKeys("drawer");
 		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
 				.click();
 		WebElement Cabinet = driver
 				.findElement(By
 						.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"));
 		wait.until(ExpectedConditions.visibilityOf(Cabinet));
-		for(int i=0; i<=2;i++){
+		
 		try
 		{
 			Cabinet.click();
@@ -305,7 +341,6 @@ public class TIHPCustomerFlow extends TestBase {
 		catch(Exception e)
 		{
 			System.out.println(e.getMessage());
-		}
 		}
 		Thread.sleep(20000);
 		System.out.println("Save the design");
@@ -348,6 +383,10 @@ public class TIHPCustomerFlow extends TestBase {
 		if(!ValidationOption.isEnabled())
 		{
 			System.out.println("Send design for validation option is Disabled--Test Passed");
+		}
+		else
+		{
+			System.out.println("Send design for validation option is Enabled");
 		}
 	}
 

@@ -6,8 +6,9 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(
-        features = "src/main/java/featurefiles", //the path of the feature files
+@CucumberOptions( 
+	//	features = "src/main/java/featurefiles/TIHPCoworkerFlow.feature",
+		features = "src/main/java/featurefiles/TIHPCustomerFlow.feature:15", //the path of the feature files
         glue="stepdefinition",
         monochrome = true,
         plugin = { "pretty", "html:target/cucumber-reports" }

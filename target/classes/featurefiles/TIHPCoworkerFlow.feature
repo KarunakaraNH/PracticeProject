@@ -5,7 +5,6 @@ Feature: As a Coworker I should able to Validate the Design sent for Validation
  			Given Access IHP Planner for coworker validation 
   		When Click on login link on hoomepage
   		And Enter coworker username and Password and click on login button
-  		Then Verify that coworker is logged into planner
   		When Click on Open Validation link
   		Then Enter Email Id and click on Get Design button
   		And Verify that designs are displayed in the drop down
