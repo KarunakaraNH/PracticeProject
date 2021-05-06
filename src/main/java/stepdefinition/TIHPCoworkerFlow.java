@@ -124,15 +124,18 @@ public class TIHPCoworkerFlow extends TestBase{
 
 	@When("^Modify the design and save the design$")
 	public void modify_the_design_and_save_the_design() throws Throwable {
-		driver.switchTo().frame("MainFrame");
+		/*driver.switchTo().frame("MainFrame");
 		driver.switchTo().frame("PlannerFrame");
-		Thread.sleep(30000);
+		Thread.sleep(20000);
 		wait.until(
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
 				.sendKeys("chair");
 		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
 				.click();
+		Thread.sleep(20000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"))).click();
+
 		for (int i = 1; i <= 1; i++) {
 			try {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"))).click();
@@ -144,13 +147,41 @@ public class TIHPCoworkerFlow extends TestBase{
 				wait.until(ExpectedConditions.visibilityOf(Cabinet));
 				Cabinet.click();
 			}
-		}
+		
 		
 		Thread.sleep(10000);
 		System.out.println("Save the design");
 		driver.findElement(By.xpath("//span[@id='header_button_save']"))
 				.click();
-		Thread.sleep(5000);
+		Thread.sleep(20000);*/
+		
+		
+		driver.switchTo().frame("MainFrame");
+		driver.switchTo().frame("PlannerFrame");
+		Thread.sleep(30000);
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By
+						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
+				.sendKeys("chair");
+		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
+				.click();
+		int length = 1;
+		for (int i = 0; i <= length; i++) {
+			try {
+				WebElement Cabinet = driver
+						.findElement(By
+								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+				wait.until(ExpectedConditions.visibilityOf(Cabinet));
+				Cabinet.click();
+			} catch (Exception e) {
+				System.out.println("Exception "+e);
+		}
+		}
+		Thread.sleep(20000);
+		//System.out.println("Save the design");*/
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='header_button_save']"))).click();
+	
+	
 	
 	}
 

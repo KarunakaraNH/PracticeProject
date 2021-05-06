@@ -285,6 +285,7 @@ public class TIHPCustomerFlow extends TestBase {
 		
 		driver.findElement(By.xpath("//span[@id='General_SubmitButton']"))
 				.click();
+		driver.findElement(By.cssSelector("#button_close")).click();
 		driver.switchTo().defaultContent();
 
 	}
