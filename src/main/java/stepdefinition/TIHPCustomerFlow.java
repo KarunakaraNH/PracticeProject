@@ -190,6 +190,7 @@ public class TIHPCustomerFlow extends TestBase {
 		{
 			System.out.println("Design is not sent for validation");
 		}
+		driver.close();
 		
 	}
 
@@ -285,15 +286,28 @@ public class TIHPCustomerFlow extends TestBase {
 		
 		driver.findElement(By.xpath("//span[@id='General_SubmitButton']"))
 				.click();
-		driver.findElement(By.cssSelector("#button_close")).click();
 		driver.switchTo().defaultContent();
+		Thread.sleep(5000);
 
 	}
 
 	@Then("^Verify that Design is sent to Direct Basket$")
 	public void verify_that_Design_is_sent_to_Direct_Basket() {
-		driver.findElement(By.xpath("//span[@id='AddToCart_Complete_Header']"))
-				.getText().equalsIgnoreCase("Thank you");
+		/*driver.findElement(By.xpath("//span[@id='AddToCart_Complete_Header']"))
+				.getText().equalsIgnoreCase("Thank you");*/
+		
+		driver.switchTo().frame("MainFrame");
+		driver.switchTo().frame("PlannerFrame");
+		driver.switchTo().frame("VPUIAddToCartConfirmation");
+		WebElement directbuysuccessimg=wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("img_order")));
+		if(directbuysuccessimg.isDisplayed())
+		{
+			System.out.println("Design is sent to Direct Basket");
+		}else
+		{
+			System.out.println("Design is not sent to Direct Basket");
+		}
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("button_close"))).click();
 		String parentWindow = driver.getWindowHandle();
 		Set<String> handles = driver.getWindowHandles();
 		for (String windowHandle : handles) {
@@ -302,18 +316,13 @@ public class TIHPCustomerFlow extends TestBase {
 			}
 
 		}
-
-		List<WebElement> prices = driver
-				.findElements(By
-						.xpath("//div[@class='productlist']/div/div/div[2]/div[2]/div/div"));
-		for (WebElement price : prices) {
-			System.out.println(price.getText());
-		}
+		driver.close();
+		
 	}
-
+	
 	@Then("^add single cabinet to Planner and save the design$")
 	public void add_any_cabinet_to_Planner_and_save_the_design()
-			throws Throwable {
+	throws Throwable {
 		driver.switchTo().frame("MainFrame");
 		driver.switchTo().frame("DashboardFrame");
 		driver.switchTo().frame("FromScratchIframe");
@@ -327,68 +336,73 @@ public class TIHPCustomerFlow extends TestBase {
 		wait.until(
 				ExpectedConditions.visibilityOfElementLocated(By
 						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
-				.sendKeys("drawer");
+				.sendKeys("sink");
 		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
 				.click();
-		WebElement Cabinet = driver
-				.findElement(By
-						.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"));
-		wait.until(ExpectedConditions.visibilityOf(Cabinet));
-		
-		try
-		{
-			Cabinet.click();
+		for (int i = 0; i <1; i++) {
+			try {
+				WebElement Cabinet = driver
+						.findElement(By
+								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+				wait.until(ExpectedConditions.visibilityOf(Cabinet)).click();
+				Cabinet.click();
+			
+			} catch (Exception e) {
+				WebElement Cabinet = driver
+						.findElement(By
+								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+				wait.until(ExpectedConditions.visibilityOf(Cabinet)).click();;
+				System.out.println("Exception "+e);
 		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
 		}
-		Thread.sleep(20000);
-		System.out.println("Save the design");
-		driver.findElement(By.xpath("//span[@id='header_button_save']"))
-				.click();
-		driver.switchTo().frame("VPUIFrameSaveAS");
-		String savetext = driver.findElement(
-				By.xpath("//span[@id='SaveDesignFrame_Title']")).getText();
-		System.out.println(savetext);
-		int designSrNo = TestBase.RandomNumber();
-		wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By
-						.xpath("//input[@id='save_as_name']"))).sendKeys(
-				"Test-ignore " + designSrNo);
-		driver.findElement(By.id("button_save_as")).click();
-		driver.findElement(By.xpath("//img[@id='button_close']")).click();
-		driver.switchTo().defaultContent();
+	Thread.sleep(20000);
+	System.out.println("Save the design");
+	driver.findElement(By.xpath("//span[@id='header_button_save']"))
+	.click();
+	driver.switchTo().frame("VPUIFrameSaveAS");
+	String savetext = driver.findElement(
+	By.xpath("//span[@id='SaveDesignFrame_Title']")).getText();
+	System.out.println(savetext);
+	int designSrNo = TestBase.RandomNumber();
+	wait.until(
+	ExpectedConditions.visibilityOfElementLocated(By
+	.xpath("//input[@id='save_as_name']"))).sendKeys(
+	"Test-ignore " + designSrNo);
+	driver.findElement(By.id("button_save_as")).click();
+	driver.findElement(By.xpath("//img[@id='button_close']")).click();
+	driver.switchTo().defaultContent();
 
 
 	}
 
-	@Then("^Click on Proceed button and Verify that Send Validation option is disabled with proper warning message$")
-	public void verify_that_Send_Validation_is_disabled_with_proper_warning_message()
-			throws Throwable {
-		Thread.sleep(5000);
-		driver.switchTo().frame("MainFrame");
-		driver.switchTo().frame("PlannerFrame");
-		WebElement Proceedbutton=driver.findElement(By.id("ecommerce_button"));
-		js.executeScript("arguments[0].scrollIntoView(true);", Proceedbutton);
-		if (Proceedbutton.isDisplayed() || Proceedbutton.isEnabled()) {
-			System.out.println("Proceed button is displayed");
-			Proceedbutton.click();
-		}else
-		{
-			System.out.println("Proceed button is not displayed");
-		}
-		Thread.sleep(5000);
-		driver.switchTo().frame("VPUIEcommerceFull");
-		WebElement ValidationOption=wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("validate_option")));
-		if(!ValidationOption.isEnabled())
-		{
-			System.out.println("Send design for validation option is Disabled--Test Passed");
-		}
-		else
-		{
-			System.out.println("Send design for validation option is Enabled");
-		}
+	 @Then("^Click on Proceed button and Verify that Send Validation option is disabled with proper warning message$")
+	public void verify_that_Send_Validation_is_disabled_with_proper_warning_message() throws InterruptedException{
+	Thread.sleep(5000);
+	driver.switchTo().frame("MainFrame");
+	driver.switchTo().frame("PlannerFrame");
+	WebElement Proceedbutton=driver.findElement(By.id("ecommerce_button"));
+	js.executeScript("arguments[0].scrollIntoView(true);", Proceedbutton);
+	if (Proceedbutton.isDisplayed() || Proceedbutton.isEnabled()) {
+	System.out.println("Proceed button is displayed");
+	Proceedbutton.click();
+	}else
+	{
+	System.out.println("Proceed button is not displayed");
 	}
+	Thread.sleep(5000);
+	driver.switchTo().frame("VPUIEcommerceFull");
+	WebElement ValidationOption=wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("validate_option")));
+	if(!ValidationOption.isSelected())
+	{
+	System.out.println("Send design for validation option is Disabled--Test Passed");
+	}
+	else
+	{
+	System.out.println("Send design for validation option is Enabled");
+	}
+	driver.close();
+	}
+
+	 
 
 }

@@ -8,10 +8,10 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions( 
 	//	features = "src/main/java/featurefiles/TIHPCoworkerFlow.feature",
-		features = "src/main/java/featurefiles/TIHPCustomerFlow.feature:15", //the path of the feature files
+		features = "src/main/java/featurefiles/TIHPCoworkerFlow.feature", //the path of the feature files
         glue="stepdefinition",
         monochrome = true,
-        plugin = { "pretty", "html:target/cucumber-reports" }
+        plugin = { "pretty", "html:target/cucumber- mreports" }
 		)
         //the path of the step definition files
        // format= {"pretty","html:test-outout", "json:json_output/cucumber.json", "junit:junit_xml/cucumber.xml"})//to generate different types of reporting

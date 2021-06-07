@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import utils.TestBase;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -124,72 +125,112 @@ public class TIHPCoworkerFlow extends TestBase{
 
 	@When("^Modify the design and save the design$")
 	public void modify_the_design_and_save_the_design() throws Throwable {
-		/*driver.switchTo().frame("MainFrame");
-		driver.switchTo().frame("PlannerFrame");
-		Thread.sleep(20000);
-		wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By
-						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
-				.sendKeys("chair");
-		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
-				.click();
-		Thread.sleep(20000);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"))).click();
 
-		for (int i = 1; i <= 1; i++) {
-			try {
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"))).click();
-				
-			} catch (Exception e) {
-				WebElement Cabinet = driver
-						.findElement(By
-								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
-				wait.until(ExpectedConditions.visibilityOf(Cabinet));
-				Cabinet.click();
-			}
-		
-		
-		Thread.sleep(10000);
-		System.out.println("Save the design");
-		driver.findElement(By.xpath("//span[@id='header_button_save']"))
-				.click();
-		Thread.sleep(20000);*/
-		
-		
-		driver.switchTo().frame("MainFrame");
-		driver.switchTo().frame("PlannerFrame");
-		Thread.sleep(30000);
-		wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By
-						.xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
-				.sendKeys("chair");
-		driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
-				.click();
-		int length = 1;
-		for (int i = 0; i <= length; i++) {
-			try {
-				WebElement Cabinet = driver
-						.findElement(By
-								.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
-				wait.until(ExpectedConditions.visibilityOf(Cabinet));
-				Cabinet.click();
-			} catch (Exception e) {
-				System.out.println("Exception "+e);
-		}
-		}
-		Thread.sleep(20000);
-		//System.out.println("Save the design");*/
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='header_button_save']"))).click();
-	
-	
-	
+
+        /*driver.switchTo().frame("MainFrame");
+        driver.switchTo().frame("PlannerFrame");
+        Thread.sleep(20000);
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By
+                        .xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
+                .sendKeys("chair");
+        driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
+                .click();
+        Thread.sleep(20000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[1]"))).click();
+
+ 
+
+        for (int i = 1; i <= 1; i++) {
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"))).click();
+                
+            } catch (Exception e) {
+                WebElement Cabinet = driver
+                        .findElement(By
+                                .xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]"));
+                wait.until(ExpectedConditions.visibilityOf(Cabinet));
+                Cabinet.click();
+            }
+        
+        
+        Thread.sleep(10000);
+        System.out.println("Save the design");
+        driver.findElement(By.xpath("//span[@id='header_button_save']"))
+                .click();
+        Thread.sleep(20000);*/
+        
+        Thread.sleep(3000);
+        driver.switchTo().frame("MainFrame");
+        driver.switchTo().frame("PlannerFrame");
+        Thread.sleep(3000);
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By
+                        .xpath("//input[@id='MainControl_Search_SearchAllProducts']")))
+                .sendKeys("chair");
+        driver.findElement(By.xpath("//div[@id='General_SearchButton']"))
+                .click();
+        int length = 1;
+        for (int i = 0; i <= length; i++) {
+            try {
+                System.out.println("came inside for loop");
+                Thread.sleep(10000);
+                WebElement CabinetSection = driver.findElement(By.id("item_selector_panel"));
+                WebDriverWait wait = new WebDriverWait(driver,300);
+                CabinetSection = wait.until(ExpectedConditions.visibilityOf(CabinetSection));
+                
+                if(CabinetSection.isDisplayed())
+                {
+                    WebElement Cabinet = driver
+                            .findElement(By
+                                    .xpath("//div[@class='PagingItemSelector_ItemsContainer']/div[2]/div"));
+                    WebDriverWait wait1 = new WebDriverWait(driver,300);
+                    wait1.until(ExpectedConditions.visibilityOf(Cabinet));
+                    if(Cabinet.isDisplayed()&&Cabinet.isEnabled())
+                    {
+                        Cabinet.click();
+                        System.out.println("Cabinet is clicked");
+                    }
+                    else
+                        System.out.println("Cabinet is not displayed");
+                }
+                
+            } catch (Exception e) {
+                System.out.println("Exception "+e);
+        }
+        }
+        Thread.sleep(20000);
+        //System.out.println("Save the design");*/
+        
+        WebElement saveButton = driver.findElement(By.xpath("//span[@id='header_button_save']"));
+        WebDriverWait wait1 = new WebDriverWait(driver,300);
+        
+        saveButton = wait1.until(ExpectedConditions.visibilityOf(saveButton));
+        if(saveButton.isDisplayed()&&saveButton.isEnabled())
+        {
+            saveButton.click();
+            System.out.println("Save button is clicked");
+        }
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='header_button_save']"))).click();
+    
 	}
 
-	@When("^Click on Finish Validation button$")
-	public void click_on_Finish_Validation_button(){
-		 WebElement FinishValidationbutton= driver.findElement(By.xpath("//a[@class='button_type_a']"));
-   	     js.executeScript("arguments[0].scrollIntoView(true);", FinishValidationbutton);
-   	     FinishValidationbutton.click();
+	@And("^Click on Finish Validation button$")
+	public void click_on_Finish_Validation_button() throws InterruptedException{
+		Thread.sleep(15000);
+		WebElement FinishValidationbutton= driver.findElement(By.xpath("//a[@class='button_type_a']"));
+	   	 
+		try
+		{
+			    js.executeScript("arguments[0].scrollIntoView(true);", FinishValidationbutton);
+	   		 FinishValidationbutton.click();
+	   	     	
+		}catch(Exception e)
+		{
+			js.executeScript("arguments[0].scrollIntoView(true);", FinishValidationbutton);
+			 FinishValidationbutton.click();
+		}
+		
    	     
 	 	
 	}	
@@ -207,6 +248,7 @@ public class TIHPCoworkerFlow extends TestBase{
 		} else {
 			System.out.println("Design is not Validated");
 		}
+		driver.close();
 	}
 
 }

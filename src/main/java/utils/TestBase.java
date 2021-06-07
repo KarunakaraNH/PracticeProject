@@ -32,7 +32,7 @@ public class TestBase {
 
     public TestBase() throws IOException
     {
-        prop=new Properties();
+       prop=new Properties();
         try {
         	FileInputStream ip = new FileInputStream("./src/main/java/configuration/Config.properties");
           
